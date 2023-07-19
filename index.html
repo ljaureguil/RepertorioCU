@@ -289,6 +289,7 @@
                 top: 5%;
                 left: 1%;
             }
+ 
             .ced {
                 margin: 10px;
                 width: 50%;
@@ -333,8 +334,8 @@
             }
             #deditor {
                 position: absolute;
-                top: 0px;
-                left: 0px;
+                top:0px;
+                left:0px;
                 width: 100%;
                 height: 100%;
                 display: none;
@@ -373,10 +374,10 @@
         <div id="dle">
 
             <textarea id="le" readonly onscroll="movescroll(this.scrollHeight,this.scrollTop)"></textarea>
-            <p id="wesea" onclick='if(confirm("Are you sure?")){ebarra.value=websong+" letra";esrch.click();eactrls.style.top="-80%";x.src="";einicsld.style.background="rgba(0,150,0,.50)";einicsld.style.display="block";ele.value="";ele.scrollTo(0, 0);edle.style.display="none";clearInterval(scintervalo);}'
+            <p id="wesea" onclick='if(confirm("Are you sure?")){ebarra.value=websong+" letra";esrch.click();eactrls.style.top="-80%";x.src="";inicsld.style.background="rgba(0,150,0,.50)";inicsld.style.display="block";ele.value="";ele.scrollTo(0, 0);edle.style.display="none";clearInterval(scintervalo);}'
             style="opacity:.5;position:absolute;width:40px;height:40px;font-size: 18px;font-weight: bold;right: 15%;bottom: 22%;border-radius: 50%;border-style: solid;"></p>
 
-            <p onclick='eactrls.style.top="-80%";x.src="";einicsld.style.background="rgba(0,150,0,.50)";einicsld.style.display="block";ele.value="";ele.scrollTo(0, 0);edle.style.display="none";clearInterval(scintervalo)' style="color:black;position:absolute;width:30px;height:30px;font-size: 30px;font-weight: bold;right: 15%;bottom: 11%;border-radius: 50%;border-style: solid;">X</p>
+            <p onclick='eactrls.style.top="-80%";inicsld.style.background="rgba(0,150,0,.50)";inicsld.style.display="block";edle.style.display="none";' style="color:black;position:absolute;width:30px;height:30px;font-size: 30px;font-weight: bold;right: 15%;bottom: 11%;border-radius: 50%;border-style: solid;">X</p>
 
             <button id="inicsld" onclick='clearInterval(scintervalo);inicScrolling2();'>Start</button>
 
@@ -413,13 +414,17 @@
                 <select id=opcs class=btns oninput="doOps(this.value)">
                     <option>Choose an Option</option>
                     <option>Use Local Repertory</option>
-                    <option>Use default Repertory</option>
+                    <option>Use Default Repertory</option>
                     <option>Use Web Repertory</option>
                     <option>Set Up new link</option>
                     <option>Recover Rep Local to Web</option>
+                    <option>Recover Rep Default to Web</option>
+                    <option>Recover Rep Web to Local</option>
                     <option>Restart App</option>
-                    <option>Download</option>
-                </select>
+                        <option>Download Local Rep</option>
+                         <option>Download Web Rep</option>
+                        <option>Download Def Rep</option>
+                    </select>
 
 
 
@@ -446,21 +451,21 @@
             <button id="bpa" class="cbaudio" onclick="acordeon='';guitarra='';eactrls.style.top='-80%';x.pause();"></button>
         </div>
 
-        <div id="deditor">
+        <div id="deditor"> 
             <button onclick="deditor.style.display='none'">Close</button>
             <textarea id="taeditor"></textarea>
-
-
+           
+  
         </div>
 
 
         <script id="aar"></script>
         <script>
-            var obLocal, obWeb, obDef, linkRepDef = "Repertorio.json" //"https://raw.githubusercontent.com/ljaureguil/Comando-test/master/Repertorio.json";
-                //https://raw.githubusercontent.com/ljaureguil/Comando-test/master/Repertorio.txt
-            var linkweb = 'https://jsonblob.com/api/1104520336845848576'; //
-
-
+            var obLocal, obWeb, obDef, linkRepDef ="Repertorio.txt" //"https://raw.githubusercontent.com/ljaureguil/Comando-test/master/Repertorio.json";
+            //https://raw.githubusercontent.com/ljaureguil/Comando-test/master/Repertorio.txt
+           var linkweb='https://jsonblob.com/api/1104520336845848576';//
+           
+          var chooseS=false;
             ele = document.getElementById("le");
             edle = document.getElementById("dle");
             eactrls = document.getElementById("audctrls");
@@ -477,50 +482,37 @@
             arindex = [];
             arsongs = [];
 
-
-
-
             inic();
-             //  localStorage.removeItem("Repertorio2")
+          //  localStorage.removeItem("Repertorio2")
             function inic() {
+               loadDoc(linkRepDef, function(rep) {
+                    try{
+                    obDef = JSON.parse(rep);
+                    var sdef=rep;
+                     var slocal=localStorage.getItem("Repertorio2")
+                    if(slocal===null){localStorage.setItem("Repertorio2",rep);slocal=rep;}
+                    obLocal=JSON.parse(slocal);
+                     taeditor.value=slocal
+                      GetJ(linkweb,function(ob){
+                        obWeb=ob;
+                        var sweb=JSON.stringify(ob);
+                     
+                        if(slocal===sdef && sweb === sdef) alert("All are the same")
+                        else{
+ var ll=slocal.length, lw=sweb.length, ld=sdef.length;
+                            if(Math.abs(ll-lw)>3|| Math.abs(ll-ld)>3 || Math.abs(ld-lw)>3){
+                            //    alert("Most Like it you have to undate github repertory\n\n"+"slocal "+ll+"\n\nsdef "+ld+"\n\nsweb "+lw)
 
-                loadDoc(linkRepDef, function(rep) {
-                    try {
-                        obDef = JSON.parse(rep);
-                        var sdef = rep;
-
-                        var slocal = localStorage.getItem("Repertorio2")
-
-                        if (slocal === null) {
-                            localStorage.setItem("Repertorio2", rep);
-                            slocal = rep;
+                            }
                         }
-
-                        obLocal = JSON.parse(slocal);
-                        taeditor.value = slocal
-                        GetJ(linkweb, function(ob) {
-                            obWeb = ob;
-                            var sweb = JSON.stringify(ob);
-
-                            if (slocal === sdef && sweb === sdef) alert("All are the same")
-                            // else alert("slocal "+slocal.length+"\n\nsdef "+sdef.length+"\n\nsweb "+sweb.length); 
-                            proceso(obWeb);
-                            //  localStorage.setItem("Repertorio22",rep)
-                            //   UpdateJ(linkweb,obDef,function(){alert("ya esta...")})
-                        })
-                    } catch (e) {
-                        alert(e)
-                    }
-
-
-
+                                            proceso(obDef);
+                    //  localStorage.setItem("Repertorio22",rep)
+                 //   UpdateJ(linkweb,obDef,function(){alert("ya esta...")})
+                    })
+                }
+                catch(e){alert(e)}
                 })
-
-
-
-
             }
-
 
             function proceso(ob) {
                 titulo.innerHTML = ". . . Repertorio: " + ob.canciones.length + "+";
@@ -578,8 +570,6 @@
                 })
 
                 etitulo.innerHTML = ". . . Repertorio: " + ob.canciones.length + " Songs+"; //songs.length
-
-
             }
 
             function useLocalRep() {
@@ -601,7 +591,6 @@
 
                 }
             }
-
 
             function GetJ(url, callback) {
                 if (url == null) {
@@ -720,7 +709,7 @@
                 var p = prompt("type your pasword");
                 if (p == "laurojl" || p == "andresjv") {
                     if (confirm("Do you want to delete " + icancion.value + " ?")) {
-                        GetJ(linkRep, function(re) {
+                        GetJ(linkweb, function(re) {
                             var ac = re.canciones; //ObjRep.canciones;
                             var i = 0;
                             var n = false;
@@ -732,7 +721,7 @@
                                         re.trash.push(ac[i]);
                                         ac.splice(i, 1);
                                         i = ac.length;
-                                        UpdateJ(linkRep, re, function() {
+                                        UpdateJ(linkweb, re, function() {
                                             if (confirm("Repertorio has been updated, do you want to save it locally?")) {
                                                 localStorage.setItem("Repertorio2", JSON.stringify(re));
                                                 document.body.style.background = ' linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)';
@@ -764,7 +753,7 @@
                 e.artista = iartista.value
                 e.letra = iletra.value
 
-                GetJ(linkRep, function(re) {
+                GetJ(linkweb, function(re) {
                     var ac = re.canciones; //ObjRep.canciones;
                     var i = 0;
                     var n = false;
@@ -777,14 +766,14 @@
                         }
                     }
                     if (!n) {
-
+                      
                         if (e.categoria == undefined || e.categoria == "" || e.categoria === null) e.categoria = "cansiones"
                         if (confirm("are you sure to add it?")) ac.push(e);
-
+                 
                     }
                     var p = prompt("type your pasword");
                     if (p == "laurojl" || p == "andresjv") {
-                        UpdateJ(linkRep, re, function() {
+                        UpdateJ(linkweb, re, function() {
                             if (confirm("Repertorio has been updated, do you want to save it locally?")) {
                                 localStorage.setItem("Repertorio2", JSON.stringify(re));
                                 window.location.reload();
@@ -797,11 +786,60 @@
                 })
             }
 
+            function showletra2(el){
+if(chooseS){
+    editr.style.display="block"
+    openEdit(el)
 
+}
+else{
+    if(el.letra!=""){ edle.style.display = "block";
+              ele.value=el.letra;
+              websong=el.cancion;
+            }
+            else{
+           
+               ebarra.value =el.cancion+" letra";
+                esrch.click()
+               ebarra.value = "";
 
+            }
+                     
+}
+ }
 
+ function  movescroll(h,y){
+        sch=h;
+        scy=y;
+    //    app.ShowPopup(h+"\n\n"+y+"\n\n"+ele.offsetHeight);
+        
+    }
 
+    function doOps(v){
+                    if(v==='Use Local Repertory'){;}
+                   if(v==='Use Default Repertory'){;}
+                    if(v==='Use Web Repertory'){;}
+                    if(v==='Set Up new link'){;}
+                    if(v==='Recover Rep Local to Web'){;}
+                    if(v==='Recover Rep Default to Web'){;}
+                    if(v==='Recover Rep Web to Local'){;}
+                    if(v==='Restart App'){window.location.reload();}
+                    if(v==='Download Def Rep'){download("RepertorioDef.txt",JSON.stringify(obDef))}
+                       if(v==='Download Local Rep'){download("RepertorioLoc.txt",JSON.stringify(obLocal))}
+                      if(v==='Download Web Rep'){download("RepertorioWeb.txt",JSON.stringify(obWeb))}
+    }
+    function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
 
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
 
              //////////
         </script>
