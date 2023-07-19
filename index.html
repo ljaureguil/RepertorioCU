@@ -1,0 +1,815 @@
+<html>
+<scriptsrc="https://raw.githubusercontent.com/ljaureguil/MyLib/master/jsondials.js" onload="showobj()">
+    </script>
+    <script src="https://apis.google.com/js/api.js"></script>
+
+    <head>
+        <meta name="viewport" content="width=device-width" name="theme-color" content="#4285f4">
+        <link rel="shortcut icon" href="https://cdn3d.iconscout.com/3d/premium/thumb/music-6546373-5376636.png" type="image/x-icon" />
+
+    </head>
+
+    <body>
+        <style>
+            body {
+                background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+                font-size: 30px;
+            }
+            #todo {
+                width: 100%;
+                height: 100%;
+                overflow-y: auto;
+                overflow-x: hidden;
+                transition: overflow-y 0.5s ease;
+            }
+            .btns {
+                color: white;
+                font-weight: bold;
+                margin: 5px;
+                border-radius: 5px;
+                background: #000070;
+                font-size: 15px;
+                width: 45%;
+                height: 8%;
+            }
+            .btnss {
+                font-size: 18px;
+                color: white;
+                margin: 3%;
+            }
+            .ctit {
+                font-size: 30px;
+                color: white;
+                background: #a30303;
+                border-style: solid;
+                border-color: #ffffff
+            }
+            #lirep {
+                margin: 3%;
+                background: black;
+                color: white;
+                width: 94%;
+                // height: 40%;
+                font-size: 18px;
+                // font repertorio font-weight: bold;
+                border-radius: 15px;
+                // padding: 5%;
+                border-color: blue;
+                border-style: double;
+                border-width: 5px;
+            }
+            .songs {
+                color: #50ff50;
+                font-weight: bold;
+                font-size: 25px;
+            }
+            .songsdone {
+                color: #50ff50;
+                font-weight: bold;
+                font-size: 25px;
+            }
+            .cind {
+                // color: #0ff000;
+                background: green;
+                font-size: 30px;
+                font-weight: bold;
+            }
+            #titulo {
+                color: #0ff000;
+                background: blue;
+                font-size: 20px;
+                font-weight: bold;
+                margin: 10px;
+            }
+            .cmsgs {
+                color: white;
+                margin: 10px;
+                border-style: red;
+                border-width: 5px;
+                font-size: 20px;
+                width: 60%;
+                // height: 90%;
+                // border-radius: 10px;
+                // box-shadow: -3px 3px 6px #d7d7f3, inset 3px -3px 6px #5eee95;
+            }
+            #complac {
+                overflow: auto;
+                height: 26%;
+                // background: rgb(14, 100, 11);
+                background: white;
+                color: white;
+                font-size: 20px;
+                width: 100%;
+                border-color: black;
+                border-style: double;
+                border-width: .5px;
+                // border-radius: 2px;
+                display: none;
+                // box-shadow: -8px 8px 30px white;
+            }
+            #dle {
+                color: white;
+                display: none;
+                width: 95%;
+                height: 98%;
+                position: absolute;
+                padding: 20px;
+                // overflow: auto;
+                background: black;
+                border: solid;
+            }
+            #le {
+                padding: 15px;
+                color: black;
+                font-size: 17px;
+                width: 90%;
+                height: 90%;
+                border-radius: 5px;
+                font-weight: bold;
+                background: #ffff;
+                scroll-behavior: smooth;
+            }
+            #inicsld {
+                position: absolute;
+                bottom: 5px;
+                right: 42px;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background-color: rgba(0, 212, 255, .40);
+                color: #ffffff;
+                font-size: 18px;
+                border-style: double;
+                box-shadow: inset 0 0 5px 1px #66aa66;
+            }
+            #mainrep {
+                font-size: 18px;
+                background: #aa0000;
+            }
+            #ref {
+                position: absolute;
+                background: transparent;
+                top: 1%;
+                right: 0%;
+                border: none;
+                font-size: 36px;
+                // width: 32px;
+                // height: 30px;
+            }
+            #settings-dlg {
+                overflow-y: auto;
+                text-align: center;
+                position: absolute;
+                width: 80%;
+                height: auto;
+                background: url(https://ae01.alicdn.com/kf/HTB170FoRFXXXXaAXpXXq6xXFXXX5/Party-Disco-Club-DJ-Light-Show-Lumiere-Colorful-wedding-room-beam-lights-background-Mini-RGB-lamps.jpg);
+                background-size: 100% 100%;
+                color: blue;
+                font-size: 20px;
+                font-weight: bold;
+                left: 10%;
+                top: 10%;
+                display: none;
+                text-align: center;
+                border-style: double;
+                border-radius: 10px;
+            }
+            .btnsset {
+                font-size: 18px;
+                margin: 20px;
+                width: 50%;
+                text-align: center;
+                border-radius: 100px;
+                background: rgb(245, 78, 56);
+                color: white;
+            }
+            .divpicks {
+                border: solid;
+                font-size: 10px;
+                padding: 15px;
+                color: white;
+                width: 80%;
+                text-align: center;
+            }
+            #bottonInic {
+                height: 180px;
+                width: 180px;
+                color: #00ff00;
+                background: url(https://lh3.googleusercontent.com/m6YEmcXhjRQRdkS7AMBgGzpbdyZLK2gpbju5jB_WUJwp4Ss_fxeKA202ybPMhJixfnrm);
+                background-size: 100% 100%;
+                -webkit-text-stroke: 1.80px #000000;
+                -webkit-text-fill-color: #00ff00;
+                font-size: 25px;
+                font-weight: bold;
+                border-radius: 10px;
+                box-shadow: -5px 5px 26px #c3e2d3, inset 10px -10px 10px #3e8049, inset -10px 10px 10px #02fb38bb;
+            }
+            #audctrls {
+                position: absolute;
+                width: 60x;
+                height: 60%;
+                top: 35%;
+                right: 0%;
+                transition: top ease-in-out 2s;
+            }
+            .cbaudio {
+                color: red;
+                height: 60px;
+                width: 60px;
+                position: absolute;
+                background-color: rgba(0, 212, 255, .40);
+                border-radius: 75px;
+                font-size: 20px;
+                font-weight: bolder;
+                -webkit-text-stroke: 0.80px #ffffff;
+                -webkit-text-fill-color: rgba(241, 58, 58, .5);
+            }
+            #bpl {
+                right: 0%;
+                bottom: 20%;
+                background: url(https://www.pngitem.com/pimgs/m/200-2008129_accordion-png-transparent-images-accordion-png-png-download.png);
+                background-size: 100% 100%;
+                font-size: 30px;
+            }
+            #bplg {
+                font-size: 30px;
+                right: 0%;
+                bottom: 40%;
+                background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQUWYK7I9TSn7Osh3YPtNHE2n4_vqzEs9-3TA&usqp=CAU);
+                background-size: 100% 100%;
+            }
+            #bpa {
+                right: 0%;
+                top: 20%;
+                background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT6tNKD0Mb3zxabCHPDWaqh4RK0Dg6B7j8o0Q&usqp=CAU);
+                background-size: 100% 100%;
+            }
+            #timerh {
+                background: url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASEBUQEBIQFhUVFRUWEBAVEBUVEBUXFRUXFhcVFhUYHSggGBolGxUVITEhJSkrLi4uFx8zODMsNygtLisBCgoKDg0OGhAQGi0lICUtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAMkA+wMBEQACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAAAQIDBAUGBwj/xAA+EAABAwIEAwUGBAQFBQEAAAABAAIDBBEFEiExBkFREyJhcYEyQpGhscEjUtHwYqKy8QczQ3LhFSQ0gsIU/8QAGgEBAAIDAQAAAAAAAAAAAAAAAAEEAgMFBv/EADURAAICAQMCAwYFBAIDAQAAAAABAgMRBBIhMUEFE1EiMmFxgbEUI0KRocHR4fBS8TNDgiT/2gAMAwEAAhEDEQA/APFFkYggBACAEAIBUAIAQAoAKQCAVACAcAoAuVCAyoBpUkiIBEAIAQAgBACAEAIBEAIAQAgBACAEAIAQAgBAKgBACAEAIBUAoCgErIrqMkNk8dKVi5GOS2ygJF7LDzCMiVFARyUqeRkpS05C2JmSZXc1SZDVIEQAgBACAEAIAQAgEQAgBACAEAIAQAgBAKgBACgApAIBUAoUAljaoZiy/TQrXJmDZ0GF0GYgWVayZqcj0zhPgeKUZpDYW1HVa41ys7m6lxfUzeNeEWQO7huLbn9ExKt4bFzSfsnmmIUlirUJGuMjGnist6ZtTKzgsjMagEQAgBACAEAIBEAIAQAgBACAEAIAQAgFQAgBACAEAqAe0KCC1A1YMwkalI1aZGqR1nD8Rc9rWi5J0CqTNMpJHtPCkAbFe9+WbkSN8v8ACNr81u0zy2l/rLNMXjcypxvh3bQl7d23zDwHNWbIKfs9zVqU44n27nheMxEOIK0wWDGDyc7UtVhG9MoSNWaNqIiFJIiARACAEAIAQAgEQAgBACAEAIAQAgFQCIBUAKACkAgHBQCRgUMguQBYMwZr4ZTue8MYC5zjYAbqvZJRWWV7JqKy2ei4Fh4bI2jhIMjv/KmGoY33o2n6nnsubdftg5/saNLCWonul0PSm1LY2hrdGts1o8B+7+q2aWbjH5LP78L75OpD25cdG8L5LqV2YiO0ewnQtY8eTm6/MfNdHxDdCHmR6xfPyfT+SNNFXw2v9Sz/AEZ5xx9gWUmVg7pJDgPddvbyIII8CsoyjdWrofVejOQnKm11T+nxR5pVxWWSL8WZkoWxG5EDgpMhikAgEQAgBACAEAiAEAIAQAgBACAEAIBUAIAUAFIFQChQCaMLFmLNKgpnPcGMBLibADcrTOaiss02TUFufQ7a7KCPs2EOqXjvvH+m08m+P76LmZlfLL91fycqKlq57n7i/k7bgyg//NTGaTSSXmd2ttf6XcfRc26X4nUKuPur/WdiyXkUvb14S+b6L+paqa4/yPcR07p09LgLoQf5E7P+U4xXyXJcorUL1Uv0Q/l/9FGtrS2Wmkvo+LKT4jZegnWrLZ0v9cePn1RS0Fm2iFj/AEzafyf/AGaNXIySM5x3MoEo59mTo8eMbrjyK854fqnpbtk+j4aLXjegdkPMh7y/3/J5TxXgzoJS07btcNiDsQvQ3UqDUo8xfKZxdHqVZHnqcnURrBHSTKjgsjMjIUkiIAQCIAQAgBAIgBACAEAIAQAgBAKgBACAEAIBUA5oUAt0cDnuDWgknQDmtc5KKyzVOSiss7WmDKGLNo6Z4sOg8B4Dmeey5UnLUSx+k5Et2rsx0iiXg/DnVVT2kt3Nacz7+847N9T8gVhrrlTVtj1OvTBQWccL79j0PEanM7IDpm7MeNu9K74gNXN0kPLplY+r4QrXna6Fb5UPal8zKrqnWY/lgd8z+jV05x2abTw9W5fzguaCXmW32P5fsipi770cEg3YfsF3dRJ13VWL0+2Dm+HrfRfX6ST/AH4NGhxGwD7ZgBmLfzMcLSN+Fj5rieN6VQ1LcekuV9eUem0cvxOljnrjH1X9yvilA2VrqUm5a3tKOT88J1Db8yF0vBdbG6vyLfl8meJ8S08tHqPNh7r6nluJ0hY4tI2Vm6mVU3CRfotU4poyJWLBFpMgcFJI0hSSIgBAIgBACAEAiAEAIAQAgBACAEAqAEAIBUAoUAmgjLiABcnYLGUsLJjKSSyzq8PiZTML3av5n/5b9yubbKV0tq6HLtlK+W1dCiZHzyX1LnEBoHyAW/EaoF6qpQSjE9QwWlFJTXFs/stP5pXaX8h9GuXm75vUXY7f0N8pqtSm+kP5l/gcx4DzzETAweLj33nz9keiuXriNS/3Jh4VFw01mpn1m/4MueT8Opd4ZL+TT+q6XiEVHUVVr9MUWvCIv8HZN98sc52fDiPy2P7+C6mu/wDDVL5nO8Jf/wCm6v8A5R+zKeCV34Y55eXUcx8CtXiVXnaOFnePsv7o7Hg1jU7Kf/pfNdTSJc+IxsP41MTNSu5ujJu5njYm/kV5yMvLsU+0uH8H6m7xTSQui1jiSz/cx+IKVlVCKqIAE6SNHuv5jy5r2enn+Mq8uXvx6fFHiNPOWltdU+nY4KphsbFUmnF4Z3oST5RSe1SbCIhCRpUkiIAQCIAQAgBACARACAEAIAQAgFQAgBAKoA+NhJsFDeOSG8LLOkw6lbC3M72rd4/lHQeKoW2Ox4Rz7Zux4XQqVVSZHeA9kLbCtQRZqqUEdXwThve7YjW+WLz5v9B87LmeIXcbF9Tfny47u/RfM6+tqG9pb/TpmFzh1eRe3mBYebiqWiqy9z7/AGRQ8TbjGGlh1fX5sz4pC2IZvacc7/Nxzu+hV7TQ87WR+Z1PEcafRqqPZfczpJf+zlP5nO/qa1WNXPzNc38S3oo7PD38i1g781I9v8P0Lv1XW1fOji/RnA0EvL8SjnvlfujnMJqMry396f8AF1u0i82myn1WV80dBWfh9VGfo8P5M12VjoyyVntQu2/Mw8j4EXC81OpSzB9/ueiuWU4LtyiaqmZTz52a01SA63IX+4KseG6mcWv+UTyXi+iVi3w69V/YwuJsJyuzN2OoPIg7Fep1EI6ivz6/qjnaHU5W2RyUzFyzsRZWcFJmRkKSREAiARACAEAIAQCIAQAgBACAVACAEAqAVouoZBtYfThmp9r+kdfNVLZ7uOxUslu47DKyszd0eyPmfFZV17eWbKqtvLJ8Io3SyNY3md+g5la77VXFtliMXJ4R6ZRyRwxGQDuRttGOtvu51l52xSsnt7t8mVbjOx2P3YdPizNnc7s2RE9+Z+eQ9QDmP8xHwXRglGLf0OdoIPU67zJdh+ITWv4NPzsPpdW/Bo/nb32Rc8Yn5k1H1f2M2odait1APxeCtEfa1GTrL2dDgscOS/hkfwuH9JXdsi5aRr4nlLHs1UJejRzcj8kx8HLVordkozO3r4Zsl8TYjlGh5HuO+x+nxVHXU7LpJeuUdii3zNNXb3XD+hNhw7aKSif7TbyU5P8AM0fVUbX5c43Lo+GVrq08x9eUNwup7SM00ntsv2ZO5HNq72h1XkTz+mXU8frdO6bPMj0fU5jF6IscdFb1VKi90ejL+mu3IxpGqoXUQuCGQ0oBqkAgEQAgBACAEAiAEAIAQCoAQAgFCgg0KSHLqfaOw6eK0TlnhGmcs8Dqme3dB8yohHuxCHdkMQWxm47PhulyMB9+TQHm1nM+uy4+rs3Sx2X3E5uuHHV8I28Vmu+OnbsLPf8ARjfqfUKrpocOb+SNesao06qXXuV45s9Q93KMZGem/wAyVZtW2CibvCK/Kpc31ZTxafuv9B8B+rl0NBHbVKRTv9u9fATFHWpwPBg+pVOhZtz8zv3caRIfw6/S3iR8W/8AC79fNE0eS1qxJMxcXbaV3mufT0O/f7UYz9UizSSZmW6j5hbtat0YWfRlnwqfv0vvyhz6hzHMnZ7TTr5jceq5qgpJ1vubpp7cd4lviGOzmVkOjX2dpydzCw0c8Zpn1RztZSpxz2Y2tDZ4u1Fv4x0PVd7R35Xkz+h52KdNm39jkqyAtKi2twlg69U1JFF4Ws3EZCEjSgEUgRACAFABSAQCIAQAgBAKEAIBQoBbp47anfkFrm88GqTzwiWWWw8TuVgo5IjHJVC2m00cKps79dhq4+AVe+e2PBKR2eGSAAyu0Fr+TG8v31XIui3iKMafzLd76RKlPVm0lS72jcj6NH0VqNaWILsUtU3dbj1JMMOWO53OpWu72pnZfsUqJTrZLho6m/xN/sF0oLbRg5VftXNk+Lv/AA7fxN/pVHTr2jvarihITApLEf7m/PRdql+xJfA8xrI5RWx5tpFQqfU6lMt+mgyvQyW9DdXUvMplD6k0WeVfGZbduW8jqPNctrudm/2LFLsy7gMoex9I/Y3dH4Hoq+pjtkro/UqOOG6307GdSTGCUxv2Js4K/GW+KnHqcXWafcvihmMUg5bHYrq12K6HPUq6ezHU5udliq7WGdKLyVyFBmNKAagBSBEAIAQAgEQAgBACAVACgE0TOZ9AsW+xg36FjNbU7/Ra8ZMcENidVnwjYuCRkZUORJv0VPZoYN3av8uio2Ty8mFksLC6s0MTlIY2Jvv6n/aP1P0WiiOZOb7Gb/Kq2larJsyMczc+mysQWMyK2kr3Wbi3I4hlgDtZaYxTkdDUPn5FSRri9osf7K9a0oYKOnjyT4i1xbt732VSnCZ1dXL8tITDI3Dl0PwK6NU1/BwtQsj8eicXXsqsGlIu6FZ0+30MynY4O23V2mxKRFkeC25rrA21Cp3RUZtHXhPzdOn3QHM17ZG7gghaeJRcWa5e1BPui/xDCJWNqGcx3h0Kr6Sbrk62aboqS3Iz6OfOzs3bj2V0oT8uW5HFvq2S3Iy6+mKvyamso21TMp8ZVctJ5Iy1SSMIQCIAUgRACAEAiAEAqAEAKASxs5lYtkMnYOZ9FgzAcG3UZwT0LcNNdapTGTSoqDXMRoFXnb2JXqzZoKQ7nc/IKtZPsiKlvnl9iSHDnSSF522b5BWIRe1Risk2uM5cst0tDGJc0zXOHQOymw6Eg2+Ci1WRWGsF/RqmuDfV/wC/E2WYE2od+A1sbLj/ADZRceGbTMd9gq0G9zK+q1UHwo8me3D2tkLSGO5ZhfTXlr9VN1rksmvTPdj2TRxClpOxGQTdpfW+XJ425rTVKbksF3UJbeSTDInwwlz6WNzHbSuY7xFg4EBdiGks97P8nGlCEnyUpaankJ7R5ZpcWZf0tdU5KcZcnc0VFKrwnz88GNLhjc1mEO6HZb6XOTSwatVTCvo8otf9LFwZA5rTuQPp1VjWVXJbkjXoLY81tmvS8MUckd21kbT+R+jlxHfbHLksfv8A0LqioywssyZcM7EuhMjHtPskEb+hRXeZieGmYyp28HKVUDo5PIrqV2KcTnW18NMll77c3xVmqzbwc7bseDJqoOa2yLEJFB7FimbskLgsiRpCkDUAKQIgBAIgFQAoAIB7GqGQyeNt1g3gxZM2MlYZwC/SUtytE7GiHk7XhrAqdxDpphGBzJsfQblcnU6qxPEY5LlNEZLLZ1GIw4e1oDJJZnDbMO58yq/L5jlfNJGye1LEsfuYdfUMaLiO2bQakaddlYoTz1NMnBR4HYfjssI/BDAToDlDnG/murHWzitqwVKdCrLMofVYfM1pmmcw5nagSsc/MdSHNBJB81XtulJ5bydeOjhCLX90Zvb963RTCtvnBRtrijocCxiniuXx53Ei172A1vzGqo30zcumV/voWKduMJ4ZlY1WNe67GhouSFt01bh1ZnqZJ4KbK2TYudba19OtvJdWq6SW1Mo+WnzI0KF9OQe3z7XGXLe/TUKtbnfydfSyqUMRxn4lCqLQ/wDCNx7pOh9R1WVSmzDVbP0tGgcXqDGI3SEsGgYSS23SztF0tl+zj7HMg6lYmzGqnNvzXMlCXc7adOU2i6KWAxh8dSC/nG6Mi3/tdVp8LlFqOnha8RXHrlfYoYrBnbmG/NY0y2vBzdbptjMqGnePdNvJW/MXqcK7aMqaM9FYhemsGiM0ZFTTELZksxlkoStWcWbSArMkaUAikCKACkAoAKQCgDmtTJBKxqwbILtJVFl8oYb83MDreVxotNle7qE8Flsz3nvOPpYD5LW4qPRAv0sQ8brTORqlLB0uCYa151c1rR7T3Os0fqfBUbrdvGCldqJrhHV1VPQQxDI+V0p2acoHmbXsPDdaZOua9nOfpgmj8znLycnicznP1DgLXbcHUdR4LfSklwXJbl2KT6ktIykg9b6jyViMU+pZ0186+UyaGdxABJsNtdr7rOMFksy1U58SZ0eB4C2UBzp4oi51mNeCXO5aAcr6ehXd0+lSr3OOf6HKuuTm1nBj1RyuNjzIuOeu6o6uiEXhG7TTluKszif3qqCSLV8nwJFckXWxSwU5zZtxYRI+LMyOQ76hpIt6LVOxuRqhfKPyMc902KtU2JmTt3dzSwziB8DXNbls4a5o2PIPUZgfgunDURSW4w9pmVXVMchzAWPMAd2/gOXkqmosrlLK4OnTv8somInZUZTSMVbNMv0cEjRrYtPQ7HxCp2Ti38SwpSa5Y6N5Y6zrlt9QDY2UPElwczU0Z6HX0MGEyM77p2Ho4x7/AAUKcI9d2fhg5sqdizLd9MYOf4i4aiF3QvDm8ts3y3U1ax7sGirVyjLDOCxCiyldSuzJ1q7dyMmWIhWUywmQlZEiKQIgBACgAgHAIQPAUEEgWIJImrCTBfh0WmRi0aUFQ7kB8FXlFGl15NigilkcGtaST7LQLk+QVWbjEzhpcnSjhuqjYZJIXAAXObu+uqp2WYxlNfQvV0KC45MComJOtvhorMI46FS2TbM57rlWlwiI9CZj7a9FnCXJngmZib7g3Fx7JAAI56G2i6sddYjV+HTDNmIVPUWbuToaTTrPIs7bGyqRZu1VCUuBad/eHmsmc6dXqdvhfEr4adsefLZxNtSLEbaHqPmq8pWLKg+DnWOfuxZyuPTxPkL43AB2pZlIsedvC91s0+9L2kbqKnj2jn5H6+18lbcmXoVodG0fmWqUmXaoPBIxwHNa5ZZpnWkzZwWePO3tM2W/ey6Ot4XVK+LxwZ1noMvClBPFngleCRoSARfxFtFWnqKa45U3n0aM5Qk+HE844hwWaneWv9DfukdQVa0uqhauCtbpscnOS1b26XK6kK4yKMqF6FOoqSd1uVSXQiNeDOmcs0sG5IqvW0zIypJEQAoAIBwCZIJGsOwWOSG8FhlOVrczW5juyA3389FG7JO5voPYbLFo2rBYjd4rBhqPU06GYXAFyTpoq1keMsmPXg9K4axOmpg0NIkmdo6QOGWPqAeg5kLgXx1Epboval0+J04whjHVkPFfGRmJijJ7MaFxOrlvo09s8Tuk2+3wNFtsK04w+rOLqJrgkLpQjg5babKsbltZkTPdokepmmRxjVbslmlZZ3fA+F0r43yVTXv7wbGGOtyuSdR4LVO6tPEzqqmyMV5ePqLxthsET2GBpYxzAcpcXG4JBubnw5rRGyMpvZ0NkYuVT39Uzki2xuLW8/srMeTmaiCTJaibTT5LaoHMayzNnkU4N0EU82qMsRwXaKF7yGsBJPujcrTNpLku0Jt8GhJhUjBmfG8DqWm3xWh2Z6M3WaaRRqKrLss4156lKfBJhnEk0Lu48jq06sPgQsLtDCxcoxhfKPcmr+JnyNyOILN8hucp/hJ1C11aGMHldTOzUOSx2OaqZgV0q4tFGSKMrlaia8FV5WeCURuKgyGKQCARASsiJWDkkYOSRfo8Ne85WMc4/la0uPwC0zuS7mid8Y9WdXhn+HtdILmMRN5ukNv5Rqqs9SkslSzWxXTLMriXDGUsnZNmbIbd/KLBp6XvustPY7FnBnpbZWptxwYRereC6kLmTBmSRvWDQLkVTbay0uBOS5DXOG1tedtR5LVKpPqFY10JI3F25KhpI1OWe5NM63dHr/dYRWeTBrawj21UsncOc9EjJMWErJl3TtZ5OpwvHGxsEbWje97jdVJ0OTyz01d1DSiifEa0TtBJALb5Rfr002UV1uDItlVsazyYtTCRy8lbgzi6hFKcFXcYRyscmdKsTZEja626waN0WaFBiHZvD2kgtIIPNaJ15WDo6WcU+T05nHUktOMscLrjLJmv82+KqSslFbJI6NPhdUp74yeOx5nxLSFru0YLMd7o2aenl0VrTWKXsvqa/EdFsW+PQ5iR6vJHAkiPtlltNYx0ilRBGXLYjBokgLDo8eoWM936SBMRgjafw3Fw8Qsa5SfvI2OKSzkpLaYiIAQH0M2iwaiaOyp2PfyJGd5Pm69lxLtTU+I5l9jzj1UZLq39iKq4zpqZpcI42uPugC/rZV6Z2PiEV8zVS7bJezE8/wCJf8Raie7WuIHhoPkrteilJ7rXk6dWicnm15OHlqC43JXSjBJYR0YwSXBHmU4M8CtKNAla5YNEFiIrCRg2bOB4ZJUStijF3ONh08SfBV5yxwVb7lBZPYsH/wAM6WNl55HOdbW1mtHotNlMtrlOeEKN2dzaOB4tp4GVDmQNs1ul7kknmTdVdNOTjls0KxuTecmE8q0jfFleR+q2pG5MkY8c0wzbGWCxDICbX9fJTgswsZvYa3Tcmw1ORwFuViBYrVJF6uWS7LR30bubbm2+9kjwW4afzODLraFwFhruduQO33VyM4uJS1Hht0J+zyYE5U4TKXlyRSkl1U7RyiIz6o4GcJ4Zcw3FXxE2Oh9oeHXzWi2hTOvotY6n6okrMbe5mVwuDz5EKIaZJ5Rav8Sbg4uOUzBkcriRwJ4zwQkrLBoY0uWWDES6YAhcpA1yAaoAiAEB0NTxNKb5SS47vP2XPhoYd0c+Ggh3MWeqe83cSfVXI1xisIuxrjFYRESszIRSSKCoAt1AHNKMhl2mF1omzTN4PU+EKEwxAjuyPAL3c2N5N8zuV53V3tz4fCPOau/fPj6G1i+NGmgc8vcXO7sYLr69VpqVl0lBvjuRooylPOTzCWtLiXE3J3Pmu3GtJYR2VWV3T6LZtN0YlbtNVtUTZgmhksmDIsxHW/Xw80wSpHVYPLdtteV+fK232Wpx5OhVPKNtt2i997NvbUXt9N1thVuwkuTuaaW2O59C/jfDlS9loI+5lB3Fzpz6rorQ0+9u9r0ZydR41J5rinj1PNMUp3McWv0I3HNYT00oPDRW/FKUeGYU7lGw0SnkrPkTaY5I+0KhxN0bGhrpT1UKKMna2MLlODW5DCVJjkRSQKAhKTfQRSjECEaA0hQBEJBQAUARSAQCoAQAoA9qhkM08Mla1wc62huAeZ/RVbk5LCKt0XJYR21FxEAywNyd+vmuPZpG2cWzRty6GJxDjRmcNdALNH1KuabTKtHQ0un8uJium5K4ol2MRpmWW0z2iNlWW0YJopEwQXqeXcfD5X+Shog3cNr7d2+/lf8Ae6x2m6u3YdbQYgHSMdbRjhobAF1tdtha49SuroKsz49GXLNUrNK02er09Yx0TJBYBzQRflotM65Kbic2VsIrk8p/xhoGHJUx5bg5JLeNy0n1B+KuwjKVLUu327lCu5ec1Ho/ueRVTlTaOgmU3lYM2IiuoJEuhIl1AEugBSAzJgnc0sChSjEv0mFTSNzMaT910KfD7rYbkirZqq63hsqTQuabOBB6FVbKZQeJLDN8ZqSyiIhaWjMaoJBYgcxl/wBVDZDeAdYbIsgYsiQQCoBwKgglY9YNGLRcFcA3KANdzzWl0tvLNPlNvLIDPdbNmDZtGtkU4M8BI5SkSkNDlOCCeJ6hohouwyWOqxMS/HPzsCPFEjE38NmAs7QtBvb3Sd/LmvSeGQjGDbfL4OffKTeEdziOIyOpIi05RZwIBNtHG3yViimCulnkqaiWWs+hxuJSOc2SNxJzsNr9W95tvUW9Vavgmku3K/f/ACKMLlHn1Q5eXmsPDO3HkquK1M2oZdYmQiAS6gAgBAIpAoKEM7Tg3iBjLRSjT3Xfqu/oNXuh5Un06HF1+kbe+J21Vw/S1bL2brs4bq1bLPs2LKOTXfbS+GcRj3Ak8N3R99v8y51uhjLmp/RnZ0/icZcT4OSfTuBsWuBG4I1XOdFieHFnTVsWupA23NVmbGK5yJBIapJBACAEAqgBdALdCBwKjAHtKgkHlSQIEBI16jAwTNkRIxwSiYg3vb+6ySIaNGkqteZv05q5TY49CtZDJ3tFUF1IAbC1/MXXodM3PEn3OTqF7RjVc4sNdf01Cu2wzFkVppnEYm0CR1trkjyXlNWvzG0duh+yig4qmywhpKgkEAigAgBACAFIHxvsbrKE3F5MZRydPw7xNLA4WOnMHZdjT6xNbZ8nL1WijLlHp2C8SwztsbA9CrkqeN0GcWyiUHyXH4XTONzGzXmsfNsXc1b5ep89LzR7UEAIAQAgBACAVACgDmoC5S0jnkBo1K1SsUeprnYoLLJ6uhEQ75Bd0HJa4Wub46Gqu3zOi4M4lWCwJdSSOzIQLnKkYLVNMQQtsTVJcHWsxMiFoJ0sQACvTaO2MKU5HJsqzNmBXYidgT+/7qlqdc+kS3VQu5nTT5t/iuZO1T5ZajDBUKrM3IaoJBQBEAIAQAgBAKgFa6yyUmiGsmjQYi5hGpXR02scXgqXadSOpg4rmDQM66q1MHycx6KOehwa8ud8EAIAQAgBACAEAoUEEsShh9DpuH9z5Lm6k5ut6FDH/aK3abobtJ7pjFXC6NWQHIAKkMs0+4WyJql0NSf/AC2+a6n/AKV8ymveMmf2iufZ1LcehE7b1+y0MzQwqDMagBQBEAIAQAgBACAVSBWrKPUguM2VtdCvLqf/2Q==);
+                background-size: 100% 100%;
+                text-align: center;
+                position: absolute;
+                top: 10%;
+                left: 2%;
+                color: white;
+                width: 90%;
+                height: auto;
+                font-size: 20px;
+                padding: 10px;
+                border-style: double;
+                border-radius: 10px;
+                border-width: .5px;
+                display: none;
+            }
+            .imgicon {
+                width: 20px;
+                height: 20px;
+            }
+            #wesea {
+                background: url(https://png.pngtree.com/png-clipart/20190619/original/pngtree-vector-web-icon-png-image_3997299.jpg);
+                background-size: 100% 100%;
+            }
+            #prg {
+                width: 100%;
+                border-radius: 10px;
+            }
+            progress[value] {
+                /* Reset the default appearance */
+                -webkit-appearance: none;
+                appearance: none;
+                border-radius: 10px;
+                //width: 250px;
+                // height: 20px;
+            }
+            #taeditor {
+                display: block;
+                width: 96%;
+                height: 60%;
+                position: absolute;
+                top: 5%;
+                left: 1%;
+            }
+            .ced {
+                margin: 10px;
+                width: 50%;
+            }
+            #editr {
+                color: white;
+                display: none;
+                border-style: solid;
+                background: rgba(255, 25, 0, .5);
+            }
+            #iletra {
+                height: 45%;
+                width: 90%;
+                background-color: rgb(235, 241, 235);
+            }
+            .btnse {
+                color: white;
+                background: #030;
+                border-radius: 5px;
+                font-size: 18px;
+                margin: 10px;
+            }
+            #bcom {
+                margin: 7px;
+                display: none;
+                // width: 20%;
+                border-radius: 50px;
+                background-color: #f00;
+                color: white;
+                // font-weight: bold;
+                font-size: 20px;
+                box-shadow: inset 2px -2px 4px #d7d7f3, inset -2px 2px 4px #5eee95;
+                animation: aler .75s linear 1s infinite alternate;
+            }
+            @keyframes aler {
+                from {
+                    opacity: .1;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+            #deditor {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+                display: none;
+            }
+        </style>
+
+        <div id="editr">
+            <button class="btnse" onclick="document.body.style.background='red';openEdit();editr.style.display='none';">Sel Song</button>
+            <button class="btnse" onclick="clre();">clear</button>
+            <button class="btnse" onclick="document.body.style.background=' linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)';editr.style.display='none';">CLOSE</button>
+
+            <br>
+            <input id="icancion" type="text" class="ced">Cancion
+            <br>
+            <input id="itono" type="text" class="ced">Tono
+            <br>
+            <select id="icategoria" type="text" class="ced" oninput=""></select>Categoria
+            <br>
+            <input id="iartista" type="text" class="ced">Artista
+            <br>
+            <input id="ilink" type="text" class="ced">Link
+            <br>
+            <input id="inota" type="text" class="ced">Nota
+            <br>
+            <br>Letra
+            <textarea id="iletra" type="text" class="ced"></textarea>
+            <br>
+            <button class="btnse" onclick="document.body.style.background=' linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)';editr.style.display='none';addCancion()">ADD/REPLASE SONG</button>
+            <button class="btnse" onclick="delCancion()">Delete Song</button>
+
+        </div>
+
+        <div class="btns" id="complac"></div>
+        <button id="bcom" onclick="showpet()">Complacencias</button>
+
+        <div id="dle">
+
+            <textarea id="le" readonly onscroll="movescroll(this.scrollHeight,this.scrollTop)"></textarea>
+            <p id="wesea" onclick='if(confirm("Are you sure?")){ebarra.value=websong+" letra";esrch.click();eactrls.style.top="-80%";x.src="";einicsld.style.background="rgba(0,150,0,.50)";einicsld.style.display="block";ele.value="";ele.scrollTo(0, 0);edle.style.display="none";clearInterval(scintervalo);}'
+            style="opacity:.5;position:absolute;width:40px;height:40px;font-size: 18px;font-weight: bold;right: 15%;bottom: 22%;border-radius: 50%;border-style: solid;"></p>
+
+            <p onclick='eactrls.style.top="-80%";x.src="";einicsld.style.background="rgba(0,150,0,.50)";einicsld.style.display="block";ele.value="";ele.scrollTo(0, 0);edle.style.display="none";clearInterval(scintervalo)' style="color:black;position:absolute;width:30px;height:30px;font-size: 30px;font-weight: bold;right: 15%;bottom: 11%;border-radius: 50%;border-style: solid;">X</p>
+
+            <button id="inicsld" onclick='clearInterval(scintervalo);inicScrolling2();'>Start</button>
+
+
+        </div>
+
+
+        <button id="ref" onclick="eactrls.style.top='-80%';x.src='';sortear2('');edc.scrollTop = 0;">&#9851;</button>
+
+        <div id="todo">
+
+
+            <form method="get" action="http://www.google.com/search" target="_blank" style="border:2px dotted white;padding:4px;width:80%;">
+
+                <div>
+                    <table border="0" align="center" cellpadding="0">
+                        <tr>
+                            <td>
+                                <input id="barra" type="text" name="q" oninput="sortear2(this.value)" style=" font-size:20px;width:65%;" placeholder="Write a song..." />
+                                <input id="srch" type="submit" '_blank' style="display:none" />
+                                <button onclick="getletra2()" style=" background:red;color:white;width:30%;font-size:20px;border-radius:10px;">Letra</button>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </form>
+
+
+
+            <div id="ctrls">
+
+                <select id=opcs class=btns oninput="doOps(this.value)">
+                    <option>Choose an Option</option>
+                    <option>Use Local Repertory</option>
+                    <option>Use default Repertory</option>
+                    <option>Use Web Repertory</option>
+                    <option>Set Up new link</option>
+                    <option>Recover Rep Local to Web</option>
+                    <option>Restart App</option>
+                    <option>Download</option>
+                </select>
+
+
+
+                <button class="btns" onclick="document.body.style.background=' linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)';openEdit();editr.style.display='block';//openEditarCanc()">Editar Canciones</button>
+
+            </div>
+            <div id="bclas"></div>
+            <p id="titulo"></p>
+            <div id="lirep">
+
+            </div>
+        </div>
+
+        <audio id="myAudio">
+            <source src="" type="audio/ogg">
+        </audio>
+        <div id="audctrls">
+            <button id="bpl" class="cbaudio" onclick="x.src=acordeon;x.play().catch(e => e);">
+                &#9658;
+            </button>
+            <button id="bplg" class="cbaudio" onclick="x.src=guitarra;x.play().catch(e => e);">
+                &#9658;
+            </button>
+            <button id="bpa" class="cbaudio" onclick="acordeon='';guitarra='';eactrls.style.top='-80%';x.pause();"></button>
+        </div>
+
+        <div id="deditor">
+            <button onclick="deditor.style.display='none'">Close</button>
+            <textarea id="taeditor"></textarea>
+
+
+        </div>
+
+
+        <script id="aar"></script>
+        <script>
+            var obLocal, obWeb, obDef, linkRepDef = "Repertorio.json" //"https://raw.githubusercontent.com/ljaureguil/Comando-test/master/Repertorio.json";
+                //https://raw.githubusercontent.com/ljaureguil/Comando-test/master/Repertorio.txt
+            var linkweb = 'https://jsonblob.com/api/1104520336845848576'; //
+
+
+            ele = document.getElementById("le");
+            edle = document.getElementById("dle");
+            eactrls = document.getElementById("audctrls");
+
+            eactrls.style.top = "-80%";
+
+            edc = document.getElementById("todo")
+             etitulo = document.getElementById("titulo");
+            ectrls = document.getElementById("ctrls");
+            eli = document.getElementById("lirep")
+             repmix = "";
+            esrch = document.getElementById('srch');
+            ebarra = document.getElementById('barra');
+            arindex = [];
+            arsongs = [];
+
+
+
+
+            inic();
+             //  localStorage.removeItem("Repertorio2")
+            function inic() {
+
+                loadDoc(linkRepDef, function(rep) {
+                    try {
+                        obDef = JSON.parse(rep);
+                        var sdef = rep;
+
+                        var slocal = localStorage.getItem("Repertorio2")
+
+                        if (slocal === null) {
+                            localStorage.setItem("Repertorio2", rep);
+                            slocal = rep;
+                        }
+
+                        obLocal = JSON.parse(slocal);
+                        taeditor.value = slocal
+                        GetJ(linkweb, function(ob) {
+                            obWeb = ob;
+                            var sweb = JSON.stringify(ob);
+
+                            if (slocal === sdef && sweb === sdef) alert("All are the same")
+                            // else alert("slocal "+slocal.length+"\n\nsdef "+sdef.length+"\n\nsweb "+sweb.length); 
+                            proceso(obWeb);
+                            //  localStorage.setItem("Repertorio22",rep)
+                            //   UpdateJ(linkweb,obDef,function(){alert("ya esta...")})
+                        })
+                    } catch (e) {
+                        alert(e)
+                    }
+
+
+
+                })
+
+
+
+
+            }
+
+
+            function proceso(ob) {
+                titulo.innerHTML = ". . . Repertorio: " + ob.canciones.length + "+";
+                var tcat = [];
+                tc = [];
+                var cs = ob.categorias;
+                icategoria.name = cs;
+                cs.forEach(function(e, ix) {
+                    tcat.push(e);
+                    icategoria.innerHTML += ' <option value=' + ix + '>' + e + '</option>'
+                    var aw = [];
+                    aw.push({
+                        titulo: e
+                    }); //.categoria=e;
+
+                    tc.push(aw);
+                })
+
+                ob.canciones.forEach(function(ce, ix, ar) {
+
+                    var tt = tcat; //.toString();
+
+                    var ic = tt.indexOf(ce.categoria);
+                    if (ic >= 0) {
+                        tc[ic].push(ce);
+                    } else {
+                        tcat.push(ce.categoria);
+                        tc.push([ce]);
+                        tc[tc.length - 1].push(ce)
+                    }
+                })
+
+                tc.forEach(function(ce, ix, ar) {
+                    ce.forEach(function(e, ix, ar) {
+
+                        if (e.categoria != undefined) {
+                            var ele = document.createElement("p");
+                            ele.innerHTML = e.cancion + " . . . " + e.tono;
+                            ele.value = e.cancion;
+                            ele.setAttribute("class", "btnss");
+                            var v = JSON.stringify(e); //alert(ele)
+                            ele.setAttribute('onclick', 'this.style.color="#0e0";showletra2(' + v + ')');
+                            lirep.appendChild(ele);
+
+                        } else {
+                            var ele = document.createElement("p");
+                            ele.innerHTML = "***" + e.titulo.toUpperCase();
+                            ele.value = e.titulo.toUpperCase();
+                            //  ele.style.background="red"
+                            ele.setAttribute("class", "ctit");
+                            lirep.appendChild(ele);
+
+                        }
+                    })
+                })
+
+                etitulo.innerHTML = ". . . Repertorio: " + ob.canciones.length + " Songs+"; //songs.length
+
+
+            }
+
+            function useLocalRep() {
+                if (confirm("This opcion will use your local repertory")) {
+                    var rep = localStorage.getItem("Repertorio2");
+                    if (rep === null) {
+                        alert("No repertorio local found...");
+                        return;
+                    }
+
+                    try {
+                        ObjRep = JSON.parse(rep);
+                        proceso(ObjRep)
+
+
+                    } catch (e) {
+                        alert(e)
+                    }
+
+                }
+            }
+
+
+            function GetJ(url, callback) {
+                if (url == null) {
+                    //    alert("URL is null, check again");
+                    return;
+                }
+                //alert(url+"\n\n"+callback)
+                //var url  = "http://localhost:8080/api/v1/users";
+                var xhr = new XMLHttpRequest()
+                xhr.open('GET', url + '/1', true)
+                xhr.onload = function() {
+
+                    var users = JSON.parse(xhr.responseText);
+
+                    if (xhr.readyState == 4 && xhr.status == "200") {
+                        //    console.table(users);
+                        //   alert(JSON.stringify(users));
+                        callback(users);
+                    } else {
+                        alert(user)
+                        //  console.error(users);
+                    }
+                }
+                xhr.send(null);
+            }
+
+
+             // Update a user
+            function UpdateJ(url, ob, callback) { //prompt(JSON.stringify(ob))
+                var json = JSON.stringify(ob); //JSON.stringify(data);
+                //("this will be sent: \n\n"+otot(ob))
+                //   alert("dddd\n\n\n"+json)
+                var xhr = new XMLHttpRequest();
+                xhr.open("PUT", url + '/12', true);
+                xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                xhr.onload = function() {
+                    var users = JSON.parse(xhr.responseText);
+                    if (xhr.readyState == 4 && xhr.status == "200") {
+                        //  alert("Forma a sido enviada");
+                        //     alert(url)
+                        if (callback != undefined) callback(users);
+
+                    } else {
+                        (users);
+                    }
+                }
+                xhr.send(json);
+            }
+
+            function loadDoc(url, callback) {
+                var xhttp = new XMLHttpRequest();
+
+                xhttp.open("GET", url, false);
+                xhttp.send();
+                callback(xhttp.responseText);
+
+            }
+
+            function sortear2(filter) {
+                var ar = lirep.children;
+                try {
+                    filter = filter.toUpperCase();
+                } catch {;
+                }
+                for (var i = 0; i < ar.length; i++) {
+
+                    var ev = ar[i].value;
+                    var e = ar[i];
+                    try {
+                        ev = ev.toUpperCase();
+                        if (ev.indexOf(filter) < 0 || ev === undefined && filtro != "") {
+                            e.style.display = "none";
+                        } else {
+                            e.style.display = "block";
+
+
+                        }
+                    } catch (e) {;
+                    }
+                }
+
+
+                //}
+            }
+
+            function openEdit(e) {
+                if (e === undefined) {
+                    e = {}
+                    chooseS = true;
+                } else {
+                    chooseS = false;
+                    icancion.value = e.cancion;
+                    icategoria.value = icategoria.name.split(",").indexOf(e.categoria); ///////
+                    inota.value = e.nota;
+                    iletra.value = e.letra;
+                    iartista.value = e.artista;
+                    itono.value = e.tono;
+                    ilink.value = e.link;
+                }
+            }
+
+            function clre() {
+                icancion.value = "";
+                itono.value = "";
+                icategoria.value = 0; ///////
+                ilink.value = "";
+                inota.value = "";
+                iartista.value = "";
+
+                iletra.value = "";
+
+
+            }
+
+            function delCancion() {
+                var p = prompt("type your pasword");
+                if (p == "laurojl" || p == "andresjv") {
+                    if (confirm("Do you want to delete " + icancion.value + " ?")) {
+                        GetJ(linkRep, function(re) {
+                            var ac = re.canciones; //ObjRep.canciones;
+                            var i = 0;
+                            var n = false;
+                            alert(icancion.value)
+                            for (i = 0; i < ac.length; i++) {
+                                if (icancion.value.toUpperCase() === ac[i].cancion.toUpperCase()) {
+                                    n = true;
+                                    if (confirm("I found " + icancion.value + " Do you really want to delete it?")) {
+                                        re.trash.push(ac[i]);
+                                        ac.splice(i, 1);
+                                        i = ac.length;
+                                        UpdateJ(linkRep, re, function() {
+                                            if (confirm("Repertorio has been updated, do you want to save it locally?")) {
+                                                localStorage.setItem("Repertorio2", JSON.stringify(re));
+                                                document.body.style.background = ' linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)';
+                                                editr.style.display = 'none';
+                                                window.location.reload(); // inic2();
+                                            }
+
+                                        })
+                                    }
+
+                                }
+                            }
+                            if (!n) {
+                                alert(icancion.value + " Not found");
+                            }
+                        })
+                    }
+                } else alert("Access denied, you have to be authorised to delete a song")
+            }
+
+
+            function addCancion() {
+                e = {};
+                e.cancion = icancion.value;
+                e.tono = itono.value
+                e.categoria = icategoria.name.split(",")[icategoria.value]; //alert(e.categoria) ///////
+                e.link = ilink.value;
+                e.nota = inota.value
+                e.artista = iartista.value
+                e.letra = iletra.value
+
+                GetJ(linkRep, function(re) {
+                    var ac = re.canciones; //ObjRep.canciones;
+                    var i = 0;
+                    var n = false;
+                    for (i = 0; i < ac.length; i++) {
+                        if (e.cancion.toUpperCase() === ac[i].cancion.toUpperCase()) {
+                            //   alert("reemplasarla\n\n" + JSON.stringify(e));
+                            if (confirm("are you sure you want to replace it?")) ac[i] = e;
+                            n = true;
+                            i = ac.length;
+                        }
+                    }
+                    if (!n) {
+
+                        if (e.categoria == undefined || e.categoria == "" || e.categoria === null) e.categoria = "cansiones"
+                        if (confirm("are you sure to add it?")) ac.push(e);
+
+                    }
+                    var p = prompt("type your pasword");
+                    if (p == "laurojl" || p == "andresjv") {
+                        UpdateJ(linkRep, re, function() {
+                            if (confirm("Repertorio has been updated, do you want to save it locally?")) {
+                                localStorage.setItem("Repertorio2", JSON.stringify(re));
+                                window.location.reload();
+                            }
+
+                        })
+                    } else alert("Access denied, you have to be authorised to add a song")
+
+
+                })
+            }
+
+
+
+
+
+
+
+             //////////
+        </script>
+
+
+
+    </body>
+
+
+
+</html>
