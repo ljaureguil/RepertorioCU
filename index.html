@@ -345,7 +345,7 @@
         <div id="editr">
             <button class="btnse" onclick="document.body.style.background='red';openEdit();editr.style.display='none';">Sel Song</button>
             <button class="btnse" onclick="clre();">clear</button>
-            <button class="btnse" onclick="document.body.style.background=' linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)';editr.style.display='none';">CLOSE</button>
+            <button id="cled" class="btnse" onclick="document.body.style.background=' linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)';editr.style.display='none';">CLOSE</button>
 
             <br>
             <input id="icancion" type="text" class="ced">Cancion
@@ -365,7 +365,7 @@
             <br>
             <button class="btnse" onclick="document.body.style.background=' linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)';editr.style.display='none';addCancion()">ADD/REPLASE SONG</button>
             <button class="btnse" onclick="delCancion()">Delete Song</button>
-
+            <button class="btnse" onclick="downloadSong(this.parentNode.cancion);cled.onclick()">Download Song</button>
         </div>
 
         <div class="btns" id="complac"></div>
@@ -494,12 +494,16 @@
                     obLocal=JSON.parse(slocal);
                      taeditor.value=slocal
                       GetJ(linkweb,function(ob){
-                        obWeb=ob;
-                        var sweb=JSON.stringify(ob);
+                                obWeb=ob;
+                          if(ob.message!=undefined && ob.message==="Blob does not exist"){
+                               alert("No workink web link, you have to set up a new one\n\n"+JSON.stringify(ob)+"\n\nApp still is using default Repertory");
+                               obWeb=obDef;
+                          }
+                          var sweb=JSON.stringify(ob);
                      
-                        if(slocal===sdef && sweb === sdef) alert("All are the same")
+                        if(slocal===sdef && sweb === sdef){;}// alert("All are the same")
                         else{
- var ll=slocal.length, lw=sweb.length, ld=sdef.length;
+                            var ll=slocal.length, lw=sweb.length, ld=sdef.length;
                             if(Math.abs(ll-lw)>3|| Math.abs(ll-ld)>3 || Math.abs(ld-lw)>3){
                             //    alert("Most Like it you have to undate github repertory\n\n"+"slocal "+ll+"\n\nsdef "+ld+"\n\nsweb "+lw)
 
@@ -602,36 +606,33 @@
                 var xhr = new XMLHttpRequest()
                 xhr.open('GET', url + '/1', true)
                 xhr.onload = function() {
+                    var obr = JSON.parse(xhr.responseText);
+                     callback(obr)
 
-                    var users = JSON.parse(xhr.responseText);
+               /*     if (xhr.readyState == 4 && xhr.status == "200") {
 
-                    if (xhr.readyState == 4 && xhr.status == "200") {
-                        //    console.table(users);
-                        //   alert(JSON.stringify(users));
-                        callback(users);
+                         callback(users);
                     } else {
-                        alert(user)
-                        //  console.error(users);
-                    }
+                        alert(xhr.responseText)
+                  }*/
                 }
                 xhr.send(null);
             }
 
 
              // Update a user
-            function UpdateJ(url, ob, callback) { //prompt(JSON.stringify(ob))
-                var json = JSON.stringify(ob); //JSON.stringify(data);
-                //("this will be sent: \n\n"+otot(ob))
-                //   alert("dddd\n\n\n"+json)
+            function UpdateJ(url, ob, callback) { //alert("ok")
+                var json = JSON.stringify(ob); 
                 var xhr = new XMLHttpRequest();
                 xhr.open("PUT", url + '/12', true);
                 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+               
                 xhr.onload = function() {
+                 //   if(xhr.status == "404")  alert(xhr.responseText)
                     var users = JSON.parse(xhr.responseText);
-                    if (xhr.readyState == 4 && xhr.status == "200") {
-                        //  alert("Forma a sido enviada");
-                        //     alert(url)
-                        if (callback != undefined) callback(users);
+                  
+                    if (xhr.readyState == 4 && xhr.status == "200") { 
+                         if (callback != undefined) callback(users);
 
                     } else {
                         (users);
@@ -689,6 +690,9 @@
                     iartista.value = e.artista;
                     itono.value = e.tono;
                     ilink.value = e.link;
+                    editr.cancion=e;
+
+                  
                 }
             }
 
@@ -754,6 +758,13 @@
                 e.letra = iletra.value
 
                 GetJ(linkweb, function(re) {
+                    if(re.message!=undefined) {
+                        alert("it seems that the web link is not working, you need to set up a new one\n\n"+JSON.stringify(re));
+                        return;
+                        if(confirm("Do you want to save it to local Repertory?")){}
+                    
+                    
+                    }
                     var ac = re.canciones; //ObjRep.canciones;
                     var i = 0;
                     var n = false;
@@ -841,7 +852,65 @@ else{
     document.body.removeChild(element);
 }
 
+
+
              //////////
+
+             decod = function(clv, r, callback,pin) {
+             if(pin===undefined) pin=0;
+             pin=pin*1;
+        var s = "";
+        for (var i = 0; i < r.length; i++) {
+            i--;
+            for (var ii = 0; ii < clv.length; ii++) {
+                i++;
+                var n1 = r.charCodeAt(i);
+                var n = n1 - clv.charCodeAt(ii);
+                s += String.fromCharCode(n-pin);
+                if (i === r.length - 1) {
+                    ii = clv.length;
+                    i = r.length;
+                }
+            }
+        }
+        if (callback != undefined) callback(s);
+        return s;
+    }
+
+    function cod(clv, r, callback,pin) {
+        var s = "";
+        if(pin===undefined) pin=0;
+        pin=pin*1;
+        for (var i = 0; i < r.length; i++) {
+            var n = 0;
+            i--;
+            for (var ii = 0; ii < clv.length; ii++) {
+                i++;
+                n = r.charCodeAt(i);
+                n = n + clv.charCodeAt(ii);
+                s += String.fromCharCode(n+pin);
+                if (i === r.length - 1) {
+                    ii = clv.length;
+                    i = r.length;
+                }
+            }
+        }
+        if (callback != undefined) callback(s);
+        return s;
+    }
+
+    function downloadSong(c){
+    
+        if(c===undefined){alert("No song selected");return}
+        var ss=JSON.stringify(c)
+    
+        download(c.cancion+".txt",ss)
+
+
+
+    }
+
+
         </script>
 
 
