@@ -900,10 +900,12 @@ else{
     }
 
     function downloadSong(c){
-    
+ 
         if(c===undefined){alert("No song selected");return}
-        var ss=JSON.stringify(c)
-    
+      
+        var ss=JSON.stringify(c).split(',"letra":"')[0].replace(/{/g,"\n").replace(/}/g,"\n").replace(/"/g," ").replace(/,/g,"\n\n");
+        ss+="\nLetra: \n"+c.letra;
+      if(confirm("Do you want to download in json format? (Cancel for regular text format)")) ss=JSON.stringify(c)
         download(c.cancion+".txt",ss)
 
 
