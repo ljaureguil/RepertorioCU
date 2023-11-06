@@ -492,9 +492,10 @@
                      var slocal=localStorage.getItem("Repertorio2")
                     if(slocal===null){localStorage.setItem("Repertorio2",rep);slocal=rep;}
                     obLocal=JSON.parse(slocal);
-                     taeditor.value=slocal
+                     taeditor.value=slocal;
+                   //  alert(obLocal.canciones.length )
                       GetJ(linkweb,function(ob){
-                                obWeb=ob;
+                                obWeb=ob;// alert(obWeb.canciones.length )
                           if(ob.message!=undefined && ob.message==="Blob does not exist"){
                                alert("No workink web link, you have to set up a new one\n\n"+JSON.stringify(ob)+"\n\nApp still is using default Repertory");
                                obWeb=obDef;
@@ -509,7 +510,8 @@
 
                             }
                         }
-                                            proceso(obDef);
+                                          //  proceso(obDef);
+                                          proceso(obWeb)
                     //  localStorage.setItem("Repertorio22",rep)
                  //   UpdateJ(linkweb,obDef,function(){alert("ya esta...")})
                     })
@@ -519,6 +521,7 @@
             }
 
             function proceso(ob) {
+            //    alert(ob.canciones.length)
                 titulo.innerHTML = ". . . Repertorio: " + ob.canciones.length + "+";
                 var tcat = [];
                 tc = [];
@@ -780,6 +783,7 @@
                       
                         if (e.categoria == undefined || e.categoria == "" || e.categoria === null) e.categoria = "cansiones"
                         if (confirm("are you sure to add it?")) ac.push(e);
+                      //  alert(ac.length)
                  
                     }
                     var p = prompt("type your pasword");
@@ -787,6 +791,9 @@
                         UpdateJ(linkweb, re, function() {
                             if (confirm("Repertorio has been updated, do you want to save it locally?")) {
                                 localStorage.setItem("Repertorio2", JSON.stringify(re));
+                              //  alert(re.canciones.length)
+
+
                                 window.location.reload();
                             }
 
@@ -833,7 +840,9 @@ else{
                     if(v==='Set Up new link'){;}
                     if(v==='Recover Rep Local to Web'){;}
                     if(v==='Recover Rep Default to Web'){;}
-                    if(v==='Recover Rep Web to Local'){;}
+                    if(v==='Recover Rep Web to Local'){
+                        
+                        ;}
                     if(v==='Restart App'){window.location.reload();}
                     if(v==='Download Def Rep'){download("RepertorioDef.txt",JSON.stringify(obDef))}
                        if(v==='Download Local Rep'){download("RepertorioLoc.txt",JSON.stringify(obLocal))}
