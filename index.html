@@ -473,7 +473,7 @@
             var obLocal, obWeb, obDef, linkRepDef ="Repertorio.txt" //"https://raw.githubusercontent.com/ljaureguil/Comando-test/master/Repertorio.json";
             //https://raw.githubusercontent.com/ljaureguil/Comando-test/master/Repertorio.txt
            var linkweb='https://jsonblob.com/api/1104520336845848576';//
-           var linkpub='https://jsonblob.com/api/1166458063128748032';  
+           var linkpub='https://jsonblob.com/api/1166458063128748032';//  'https://jsonblob.com/api/1184264499204317184';//
           var chooseS=false;
             ele = document.getElementById("le");
             edle = document.getElementById("dle");
@@ -941,7 +941,7 @@ else{
         alert("This is on Web Pub:\nTotal de canciones: "+obp.canciones.length+"\n\n"+JSON.stringify(obp));
         if(confirm("Do you want to replace it for this?\n"+"This is on Web Pub:\nTotal de canciones: "+obWeb.canciones.length+"\n\n"+JSON.stringify(obWeb))){
         //  alert("todo bien");
-         UpdateJ(linkpub,function(){alert("Repertorio publico updated...")})
+         UpdateJ(linkpub,obWeb,function(){alert("Repertorio publico updated...")})
         }
 
   
