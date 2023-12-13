@@ -533,6 +533,7 @@
                 taeditor.value=JSON.stringify(ob)
             //    alert(ob.canciones.length)
                 titulo.innerHTML = ". . . Repertorio: " + ob.canciones.length + "+";
+                
                 var tcat = [];
                 tc = [];
                 var cs = ob.categorias;
@@ -567,7 +568,11 @@
 
                         if (e.categoria != undefined) {
                             var ele = document.createElement("p");
-                            ele.innerHTML = e.cancion + " . . . " + e.tono;
+                            ele.cancion=e;
+                            var ined="";
+                            
+                            if(e.nota.indexOf("edita")>-1) ined="... inedita"
+                            ele.innerHTML = e.cancion + " . . . " + e.tono+ined;
                             ele.value = e.cancion;
                             ele.setAttribute("class", "btnss");
                             var v = JSON.stringify(e); //alert(ele)
@@ -670,11 +675,11 @@
                 } catch {;
                 }
                 for (var i = 0; i < ar.length; i++) {
-
-                    var ev = ar[i].value;
-                    var e = ar[i];
+                     var e = ar[i];
+                    var ev = ar[i].value;ev=e.innerHTML;
+                   
                     try {
-                        ev = ev.toUpperCase();
+                         ev = ev.toUpperCase();
                         if (ev.indexOf(filter) < 0 || ev === undefined && filtro != "") {
                             e.style.display = "none";
                         } else {
